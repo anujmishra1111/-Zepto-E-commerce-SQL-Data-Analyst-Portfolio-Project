@@ -56,7 +56,6 @@ Here’s a step-by-step breakdown of what we do in this project:
 **1. Database & Table Creation**
 
 We start by creating a SQL table with appropriate data types:
-
 ```sql
 CREATE TABLE zepto (
     sku_id SERIAL PRIMARY KEY,
@@ -70,55 +69,84 @@ CREATE TABLE zepto (
     outOfStock BOOLEAN,
     quantity INTEGER
 );
+```
 
+**2. Data Import**
 
-##2. Data Import
+- The dataset was loaded into PostgreSQL using pgAdmin’s Import/Export feature.
 
-The dataset was loaded into PostgreSQL using **pgAdmin’s Import/Export feature**.
-
-If you’re not able to use the import feature, use the following SQL command instead:
-
-```sql
-\copy zepto(
-    category,
-    name,
-    mrp,
-    discountPercent,
-    availableQuantity,
-    discountedSellingPrice,
-    weightInGms,
-    outOfStock,
-    quantity
-)
-FROM 'data/zepto_v2.csv'
-WITH (
-    FORMAT csv,
-    HEADER true,
-    DELIMITER ',',
-    QUOTE '"'
-);
-
-
--Faced encoding issues (UTF-8 error), which were fixed by saving the CSV file using CSV UTF-8 format.
-
+- If you’re not able to use the import feature, use the following SQL command instead:
+```sql 
+   \copy zepto(category,name,mrp,discountPercent,availableQuantity,
+            discountedSellingPrice,weightInGms,outOfStock,quantity)
+  FROM 'data/zepto_v2.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', QUOTE '"', ENCODING 'UTF8');
+```
+- Faced encoding issues (UTF-8 error), which were fixed by saving the CSV file using CSV UTF-8 format.
 
 **3. 🔍 Data Exploration**
 
--Counted the total number of records in the dataset
+- Counted the total number of records in the dataset
 
--Viewed a sample of the dataset to understand structure and content
+- Viewed a sample of the dataset to understand structure and content
 
--Checked for null values across all columns
+- Checked for null values across all columns
 
--Identified distinct product categories available in the dataset
+- Identified distinct product categories available in the dataset
 
--Compared in-stock vs out-of-stock product counts
+- Compared in-stock vs out-of-stock product counts
 
--Detected products present multiple times, representing different SKUs
+- Detected products present multiple times, representing different SKUs
 
 
 **4. 🧹 Data Cleaning**
 
--Identified and removed rows where MRP or discounted selling price was zero
+- Identified and removed rows where MRP or discounted selling price was zero
 
--Converted mrp and discountedSellingPrice from paise to rupees for consistency and readability
+- Converted mrp and discountedSellingPrice from paise to rupees for consistency and readability
+
+**5. 📊 Business Insights**
+
+- Found top 10 best-value products based on discount percentage
+
+- Identified high-MRP products that are currently out of stock
+
+- Estimated potential revenue for each product category
+
+- Filtered expensive products (MRP > ₹500) with minimal discount
+
+- Ranked top 5 categories offering highest average discounts
+
+- Calculated price per gram to identify value-for-money products
+
+- Grouped products based on weight into Low, Medium, and Bulk categories
+
+- Measured total inventory weight per product category
+
+🛠️ How to Use This Project
+-
+## Clone the repository
+```
+git clone https://github.com/anujmishra1111/-Zepto-E-commerce-SQL-Data-Analyst-Portfolio-Project.git
+cd zepto-SQL-data-analysis-project
+```
+## Open zepto_SQL_data_analysis.sql
+
+This file contains:
+- Table creation
+- Data exploration
+- Data cleaning
+- SQL Business analysis
+
+## Load the dataset into pgAdmin or any other PostgreSQL client
+
+- Create a database and run the SQL file
+
+- Import the dataset (convert to UTF-8 if necessary)
+
+📜 License
+-
+
+MIT — feel free to fork, star, and use in your portfolio.
+
+👨‍💻 About the Author
+-
